@@ -4,7 +4,7 @@ This course project filters and analyzes biosignal recordings through three Pyth
 
 All datasets referenced by the notebooks are included in the repository. Keep the directory structure intact and run the notebooks from the repository root so their relative data paths resolve correctly.
 
-## Repository structure
+## Project Structure
 
 | Path | Contents |
 | --- | --- |
