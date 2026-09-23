@@ -1,0 +1,32 @@
+name: Validate notebooks and data
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Validate repository structure and data
+        run: python scripts/validate_repository.py
+      - name: Execute notebooks from clean kernels
+        env:
+          MPLBACKEND: Agg
+        run: |
+          mkdir -p /tmp/executed-notebooks
+          for notebook in DTEK0042_Exercise_2.ipynb DTEK0042_Exercise_3.ipynb DTEK0042_Exercise_4_FINAL.ipynb; do
+            jupyter nbconvert \
+              --to notebook \
+              --execute "$notebook" \
+              --output "/tmp/executed-notebooks/$notebook" \
+              --ExecutePreprocessor.timeout=300
+          done
