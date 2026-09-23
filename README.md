@@ -19,10 +19,19 @@ peak detection, feature extraction, and principal component analysis.
 - **Exercise 4 — SCG:** segmentation, time- and frequency-domain feature
   extraction, and a two-component PCA visualization.
 
-Each notebook retains its saved plots so that the results remain browsable on
-repository hosting sites without adding separate binary preview assets. The
-saved results are not substitutes for reproducing or reviewing the
-calculations; known methodological limitations are listed below.
+Each notebook retains its saved plots. These previews are exported unchanged
+from selected notebook outputs; they illustrate the workflow, not validated
+physiological results. Known methodological limitations are listed below.
+
+| ECG: filtered first 5,000 samples | PPG: filtered signal and detected peaks, 100–120 s |
+| --- | --- |
+| ![Filtered ECG waveform over the first 5,000 samples](assets/ecg-filtered.png) | ![Filtered PPG waveform with detected peaks from 100 to 120 seconds](assets/ppg-peaks.png) |
+
+![SCG two-component PCA with Noisy and Normal filename labels](assets/scg-pca.png)
+
+The SCG plot retains the notebook's per-segment feature scaling. It does not
+establish classification performance or noise removal. See
+[`SCG_REVIEW.md`](SCG_REVIEW.md) for the numerical review and unresolved questions.
 
 ## Project structure
 
@@ -37,6 +46,10 @@ calculations; known methodological limitations are listed below.
 | `DATA.md` | Verified file shapes, delimiters, known semantics, and undocumented provenance fields. |
 | `requirements.txt` | Pinned direct dependencies for the reproducible Python 3.11 environment. |
 | `scripts/validate_repository.py` | Dependency-free notebook and numeric-data integrity checks. |
+| `scripts/export_previews.py` | Exports selected saved PNG plots to `assets/` for this README. |
+| `tests/test_scg_preprocessing.py` | Numerical characterization of the current SCG scaling behavior. |
+| `SCG_REVIEW.md` | SCG preprocessing review and limits of the numerical checks. |
+| `VALIDATION.md` | Recorded clean-environment execution results and output-curation commands. |
 
 The notebooks are independent entry points; they do not import one another.
 There is no standalone application or command-line analysis entry point.
@@ -52,9 +65,17 @@ direct dependency versions:
 
 ```sh
 python3.11 -m venv .venv
-source .venv/bin/activate            # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+```
+
+On Windows PowerShell, create and use the environment explicitly instead:
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m notebook
 ```
 
 The direct dependencies are Jupyter Notebook, IPython, NumPy, SciPy,
@@ -98,6 +119,10 @@ hosting sites. When code or data changes affect a result, rerun the entire
 notebook from a fresh kernel, review the result, and commit the updated output
 with the code. Temporary `*.nbconvert.ipynb` files are ignored.
 
+Use the inline Matplotlib backend when refreshing saved plots, then run
+`python scripts/export_previews.py` to refresh the README images. See
+[`VALIDATION.md`](VALIDATION.md) for commands and the latest recorded run.
+
 ### Filename note
 
 Exercise 2's written data-import instruction refers to `ECG_800Hz.txt`, but
@@ -121,6 +146,10 @@ format 4 documents, that their code cells parse as Python, and that all expected
 data files contain finite numeric values with the expected number of columns.
 CI additionally executes every notebook from a clean kernel. These checks test
 structural reproducibility; they do not validate physiological conclusions.
+
+Run `python -m unittest discover -s tests -v` for the SCG numerical checks,
+which also run in CI. They characterize the current preprocessing limitation;
+passing them does not endorse that method.
 
 The following analysis questions remain intentionally documented rather than
 silently changed:
