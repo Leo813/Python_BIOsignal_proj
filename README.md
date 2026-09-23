@@ -55,9 +55,11 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-The direct dependencies are Jupyter Notebook, NumPy, SciPy, Matplotlib,
-BioSPPy, PeakUtils, pandas, and scikit-learn. PeakUtils is listed explicitly
-because BioSPPy's ECG functionality imports it at runtime.
+The direct dependencies are Jupyter Notebook, IPython, NumPy, SciPy,
+Matplotlib, BioSPPy, PeakUtils, pandas, and scikit-learn. IPython is pinned to
+a compatible 8.x release because Matplotlib 3.8 still imports an API
+removed in IPython 9. PeakUtils is listed explicitly because BioSPPy's ECG
+functionality imports it at runtime.
 
 ## Usage
 

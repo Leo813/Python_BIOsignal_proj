@@ -1,6 +1,8 @@
 # Reproducible project environment. Use Python 3.11 and install with:
 # python -m pip install -r requirements.txt
 notebook==7.1.2
+# Matplotlib 3.8 imports IPython's legacy backend2gui helper, removed in IPython 9.
+ipython==8.22.2
 numpy==1.26.4
 scipy==1.12.0
 matplotlib==3.8.3
