@@ -48,6 +48,10 @@ This package list is based on the notebook imports; compatibility with current p
 4. Run its cells in order from top to bottom. Later cells depend on variables and functions defined earlier in the notebook.
 5. Inspect the plots and printed results alongside the exercise instructions and observations.
 
+### Filename note
+
+Exercise 2's written data-import instruction refers to `ECG_800Hz.txt`, but the file in this repository—and the path used by the notebook's loading cell—is `ECG_800hz.txt`. On case-sensitive filesystems, use the repository filename with the lowercase `h`.
+
 Exercise 4 currently uses Windows-style paths (`dataset\*.txt`) and backslash-based filename parsing. Running it unchanged on Linux, macOS, or Google Colab is not supported by those paths. Its initial data-loading cells also assume the glob results list noisy recordings before normal recordings.
 
 The notebooks include instructions for exporting an HTML copy. For example, from the repository root:
